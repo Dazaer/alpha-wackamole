@@ -10,25 +10,15 @@ public class Field {
     private int width;
     private int height;
 
-    private PossibleLocation[] possibleLocations;
-    private int cols;
-    private int rows;
 
     public Field () {
         this.picture = new Picture(MARGIN,MARGIN,"background_wackamole_Thanos.png");
-        //this.width = picture.getWidth();
-        //this.height = picture.getHeight();
-        this.possibleLocations = new PossibleLocation[5];
-
-
+        this.width = picture.getWidth();
+        this.height = picture.getHeight();
     }
 
     public void show() {
         picture.draw();
-    }
-
-    public PossibleLocation getRandomLocation () {
-        return possibleLocations[(int) (Math.random()*possibleLocations.length)];
     }
 
 }
