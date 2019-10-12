@@ -1,6 +1,6 @@
 package org.academiadecodigo.thunderstructs;
 
-import org.academiadecodigo.simplegraphics.graphics.Color;
+import org.academiadecodigo.thunderstructs.Location.Target;
 
 public class Main {
     public static void main(String[] args) {
