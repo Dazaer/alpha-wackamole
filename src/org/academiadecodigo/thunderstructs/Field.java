@@ -15,18 +15,16 @@ public class Field {
     private int rows;
 
     public Field () {
-        //this.picture = new Picture()
-        this.width = picture.getWidth();
-        this.height = picture.getHeight();
+        this.picture = new Picture(MARGIN,MARGIN,"background_wackamole_Thanos.png");
+        //this.width = picture.getWidth();
+        //this.height = picture.getHeight();
         this.possibleLocations = new PossibleLocation[5];
-        this.cols = 3;
-        this.rows = 2;
 
 
     }
 
-    private void show() {
-        //picture.draw();
+    public void show() {
+        picture.draw();
     }
 
     public PossibleLocation getRandomLocation () {
