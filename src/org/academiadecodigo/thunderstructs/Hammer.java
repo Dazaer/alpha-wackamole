@@ -20,19 +20,16 @@ public class Hammer implements MouseHandler {
 
     @Override
     public void mouseClicked(MouseEvent mouseEvent) {
-        System.out.println("I just clicked!");
         clickX = mouseEvent.getX();
         clickY = mouseEvent.getY();
     }
 
     @Override
     public void mouseMoved(MouseEvent mouseEvent) {
-        System.out.println(mouseEvent.toString());
         double xinicial = hammer.getX();
         double yinicial = hammer.getY();
         hammer.translate(mouseEvent.getX() - xinicial-20, mouseEvent.getY() - yinicial-50);
-        System.out.println(hammer.getX() + " " + hammer.getY());
-        System.out.println("I'm moving");
+
     }
 
     public double getClickX() {

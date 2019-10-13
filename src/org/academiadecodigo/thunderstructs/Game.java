@@ -1,5 +1,7 @@
 package org.academiadecodigo.thunderstructs;
 
+import org.academiadecodigo.simplegraphics.graphics.Color;
+import org.academiadecodigo.simplegraphics.graphics.Text;
 import org.academiadecodigo.simplegraphics.keyboard.Keyboard;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEvent;
 import org.academiadecodigo.simplegraphics.mouse.Mouse;
@@ -11,6 +13,8 @@ public class Game {
     private Target[] targets = new Target[6];
     private Hammer hammer;
     private Mouse mouse;
+    private int score = 0;
+    private Text scoreText;
 
     private KeyTest keyTest;
     private Keyboard keyboard;
@@ -26,13 +30,18 @@ public class Game {
 
     }
 
+    public void score(){
+        this.scoreText = new Text(Field.MARGIN + 18,Field.MARGIN + 80, String.valueOf(score));
+        this.scoreText.grow(15,30);
+        this.scoreText.setColor(Color.YELLOW);
+    }
+
 
     public void init(){
 
         for (int i = 0; i < targets.length; i++) {
             targets[i] = new Target();
         }
-
         this.hammer = new Hammer();
         this.mouse = new Mouse(hammer);
 
@@ -68,11 +77,14 @@ public class Game {
             if ((hammer.getClickX() > target.getWidth() && hammer.getClickX() < target.getWidth()+ Target.X) &&
                     (hammer.getClickY() > target.getHeight() && hammer.getClickY() < target.getHeight()+ Target.Y)) {
                 target.disappear();
+                score++;
+                score();
+                System.out.println(score);
                 break;
             }
 
-            Utility.Wait(1);
-            counter++ ;
+            Utility.Wait(2);
+            counter+= 2 ;
 
         }
         target.disappear();
