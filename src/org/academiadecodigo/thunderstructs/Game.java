@@ -54,7 +54,7 @@ public class Game {
         while (true) {
             Target target = chooseRandomTarget();
             targetShow(target);
-            Utility.Wait(300);
+            Utility.Wait(400);
         }
 
     }
@@ -79,8 +79,8 @@ public class Game {
             }
             Utility.Wait(1);
             counter++ ;
-
         }
+        target.die();
     }
 
 
