@@ -11,14 +11,20 @@ public class Game {
     private Hammer hammer;
     private Mouse mouse;
     private int timeLimit;
+    private boolean begin;
 
 
     public Game() {
 
         this.timeLimit = 5;
+        this.begin = true;
 
         background = new Background();
         background.show();
+    }
+
+    public void setBegin(boolean begin) {
+        this.begin = begin;
     }
 
 
