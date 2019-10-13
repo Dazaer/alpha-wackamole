@@ -2,43 +2,61 @@ package org.academiadecodigo.thunderstructs;
 
 import org.academiadecodigo.simplegraphics.mouse.Mouse;
 import org.academiadecodigo.simplegraphics.mouse.MouseEventType;
-import org.academiadecodigo.thunderstructs.Field.Background;
+import org.academiadecodigo.thunderstructs.Field.*;
 
 public class Game {
 
     private Background background;
+    private Begin begin;
+    private Instructions instructions;
+    private ClickToStart clickToStart;
+    private GameOver gameOver;
+
     private Target[] targets = new Target[6];
     private Hammer hammer;
     private Mouse mouse;
+    private boolean gameBegin;
     private int timeLimit;
-    private boolean begin;
-
 
     public Game() {
 
         this.timeLimit = 5;
-        this.begin = true;
 
         background = new Background();
-        background.show();
+        begin = new Begin();
+        instructions = new Instructions();
+        clickToStart = new ClickToStart();
+        gameOver = new GameOver();
+        gameBegin = true;
     }
 
-    public void setBegin(boolean begin) {
-        this.begin = begin;
-    }
 
 
     public void init() {
 
-        for (int i = 0; i < targets.length; i++) {
-            targets[i] = new Target();
-        }
+        background.show();
+        begin.show();
+        clickToStart.show();
 
         this.hammer = new Hammer();
         this.mouse = new Mouse(hammer);
-
         mouse.addEventListener(MouseEventType.MOUSE_CLICKED);
         mouse.addEventListener(MouseEventType.MOUSE_MOVED);
+
+        while (hammer.getFirstClick()) {
+            Utility.Wait(500);
+        }
+        begin.hide();
+        clickToStart.hide();
+        instructions.show();
+        Utility.Wait(3000);
+        instructions.hide();
+
+        for (int i = 0; i < targets.length; i++) {
+
+            targets[i] = new Target();
+        }
+
     }
 
     public void start() {
@@ -94,6 +112,14 @@ public class Game {
 
         System.out.println("The game has ended!");
         //show image of game over
+    }
+
+    public void setBegin(boolean gameBegin) {
+        this.gameBegin = gameBegin;
+    }
+
+    public boolean getBegin() {
+        return gameBegin;
     }
 
 
