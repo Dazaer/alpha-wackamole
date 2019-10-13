@@ -1,10 +1,9 @@
 package org.academiadecodigo.thunderstructs;
 
-
 import org.academiadecodigo.simplegraphics.keyboard.Keyboard;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEvent;
-import org.academiadecodigo.simplegraphics.keyboard.KeyboardEventType;
 import org.academiadecodigo.simplegraphics.mouse.Mouse;
+import org.academiadecodigo.simplegraphics.mouse.MouseEventType;
 
 public class Game {
 
@@ -21,31 +20,24 @@ public class Game {
 
 
     public Game() {
-        this.hammer = new Hammer();
-        this.mouse = new Mouse(hammer);
 
-        this.keyTest = new KeyTest();
-        this.keyboard = new Keyboard(keyTest);
-        this.spacebarPress = new KeyboardEvent();
-        this.spacebarRelease = new KeyboardEvent();
+        field = new Field();
+        field.show();
 
-        spacebarPress.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
-        spacebarRelease.setKeyboardEventType(KeyboardEventType.KEY_RELEASED);
-        spacebarPress.setKey(KeyboardEvent.KEY_SPACE);
-        spacebarRelease.setKey(KeyboardEvent.KEY_SPACE);
-        keyboard.addEventListener(spacebarPress);
-        keyboard.addEventListener(spacebarRelease);
     }
 
 
     public void init(){
-        field = new Field();
-        field.show();
-
 
         for (int i = 0; i < targets.length; i++) {
             targets[i] = new Target();
         }
+
+        this.hammer = new Hammer();
+        this.mouse = new Mouse(hammer);
+
+        mouse.addEventListener(MouseEventType.MOUSE_CLICKED);
+        mouse.addEventListener(MouseEventType.MOUSE_MOVED);
     }
 
     public void start() {
@@ -55,7 +47,7 @@ public class Game {
         while (true) {
             Target target = chooseRandomTarget();
             targetShow(target);
-            Utility.Wait(300);
+            Utility.Wait(400);
         }
 
     }
@@ -65,23 +57,25 @@ public class Game {
         return targets[randomNumber];
     }
 
+
+    /** Takes a target (will be random) and makes it appear on the screen. If there is an input it will disappear */
     public void targetShow(Target target) {
         int counter = 0;
         target.appear();
+        hammer.refresh();
         while (target.getStayTime() > counter) {
-            if (keyTest.isSpacePressed()) {
-                target.setHit(true);
 
-            }
-            if (target.isHit()) {
-                target.die();
-                target.setHit(false);
+            if ((hammer.getClickX() > target.getWidth() && hammer.getClickX() < target.getWidth()+ Target.X) &&
+                    (hammer.getClickY() > target.getHeight() && hammer.getClickY() < target.getHeight()+ Target.Y)) {
+                target.disappear();
                 break;
             }
+
             Utility.Wait(1);
             counter++ ;
 
         }
+        target.disappear();
     }
 
 
