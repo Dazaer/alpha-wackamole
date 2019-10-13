@@ -1,13 +1,12 @@
 package org.academiadecodigo.thunderstructs;
 
-import org.academiadecodigo.simplegraphics.keyboard.Keyboard;
-import org.academiadecodigo.simplegraphics.keyboard.KeyboardEvent;
 import org.academiadecodigo.simplegraphics.mouse.Mouse;
 import org.academiadecodigo.simplegraphics.mouse.MouseEventType;
+import org.academiadecodigo.thunderstructs.Field.Background;
 
 public class Game {
 
-    private Field field;
+    private Background background;
     private Target[] targets = new Target[6];
     private Hammer hammer;
     private Mouse mouse;
@@ -17,13 +16,13 @@ public class Game {
     public Game() {
 
         this.timeLimit = 5;
-        field = new Field();
-        field.show();
 
+        background = new Background();
+        background.show();
     }
 
 
-    public void init(){
+    public void init() {
 
         for (int i = 0; i < targets.length; i++) {
             targets[i] = new Target();
