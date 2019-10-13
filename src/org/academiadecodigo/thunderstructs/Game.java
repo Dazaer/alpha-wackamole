@@ -41,9 +41,6 @@ public class Game {
     public void init(){
         field = new Field();
         field.show();
-        field.showScore();
-
-
 
 
         for (int i = 0; i < targets.length; i++) {
