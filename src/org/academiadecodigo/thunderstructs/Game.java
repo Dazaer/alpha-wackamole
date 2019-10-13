@@ -37,17 +37,17 @@ public class Game {
         spacebarRelease.setKey(KeyboardEvent.KEY_SPACE);
         keyboard.addEventListener(spacebarPress);
         keyboard.addEventListener(spacebarRelease);
+
+        mouse.addEventListener(MouseEventType.MOUSE_CLICKED);
+        mouse.addEventListener(MouseEventType.MOUSE_MOVED);
     }
 
 
     public void init(){
+
         field = new Field();
         field.show();
 
-        Hammer hammer = new Hammer();
-        Mouse mouse = new Mouse(hammer);
-        mouse.addEventListener(MouseEventType.MOUSE_CLICKED);
-        mouse.addEventListener(MouseEventType.MOUSE_MOVED);
 
         for (int i = 0; i < targets.length; i++) {
             targets[i] = new Target();
@@ -71,21 +71,22 @@ public class Game {
         return targets[randomNumber];
     }
 
+
+    /** Takes a target (will be random) and makes it appear on the screen. If there is an input it will disappear */
     public void targetShow(Target target) {
         int counter = 0;
         target.appear();
         while (target.getStayTime() > counter) {
-            if (keyTest.isSpacePressed()) {
-                target.setHit(true);
 
-            }
-            if (target.isHit()) {
+            if ((hammer.getClickX() > target.getWidth() && hammer.getClickX() < target.getWidth()+ Target.X) &&
+                    (hammer.getClickY() > target.getHeight() && hammer.getClickY() < target.getHeight()+ Target.Y)) {
                 target.die();
-                target.setHit(false);
                 break;
             }
+
             Utility.Wait(1);
             counter++ ;
+
         }
         target.die();
     }

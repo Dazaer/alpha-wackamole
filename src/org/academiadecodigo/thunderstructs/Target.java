@@ -3,7 +3,10 @@ import org.academiadecodigo.simplegraphics.pictures.Picture;
 
 public class Target  {
 
+    public static final int X = 200;
+    public static final int Y = 250;
     private static int targetsCreated;
+
 
     //private Picture[] targets = new Picture[6];       UNNECESSARY??
     private Picture target;
@@ -18,48 +21,39 @@ public class Target  {
 
         /**implement a prettier way to do this... */
 
+        stayTime = 10000;
+        isHit = false;
+
         switch (targetsCreated) {
             case 0:
                 target = new Picture(360,50, "Thanos_head.png");
                 this.width = 360;
                 this.height = 50;
-                this.isHit = false;
-                stayTime = 1500;
                 break;
             case 1:
                 target = new Picture(660,50, "Thanos_head.png");
                 this.width = 660;
                 this.height = 50;
-                this.isHit = false;
-                stayTime = 1500;
                 break;
             case 2:
                 target = new Picture(960,50, "Thanos_head.png");
                 this.width = 960;
                 this.height = 50;
-                this.isHit = false;
-                stayTime = 1500;
                 break;
             case 3:
                 target = new Picture(360,350, "Thanos_head.png");
                 this.width = 360;
                 this.height = 350;
-                this.isHit = false;
-                stayTime = 1500;
                 break;
             case 4:
                 target = new Picture(660,350, "Thanos_head.png");
                 this.width = 660;
                 this.height = 350;
-                this.isHit = false;
-                stayTime = 1500;
                 break;
             case 5:
                 target = new Picture(960,350, "Thanos_head.png");
                 this.width = 960;
                 this.height = 350;
-                this.isHit = false;
-                stayTime = 1500;
                 break;
 
             default:
