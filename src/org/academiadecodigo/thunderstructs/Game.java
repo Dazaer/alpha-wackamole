@@ -1,10 +1,10 @@
 package org.academiadecodigo.thunderstructs;
 
+import jdk.jshell.execution.Util;
 import org.academiadecodigo.simplegraphics.keyboard.Keyboard;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEvent;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEventType;
 import org.academiadecodigo.simplegraphics.mouse.Mouse;
-import org.academiadecodigo.simplegraphics.mouse.MouseEvent;
 
 public class Game {
 
@@ -15,7 +15,8 @@ public class Game {
 
     private KeyTest keyTest;
     private Keyboard keyboard;
-    private KeyboardEvent spacebar;
+    private KeyboardEvent spacebarPress;
+    private KeyboardEvent spacebarRelease;
 
 
 
@@ -25,10 +26,15 @@ public class Game {
 
         this.keyTest = new KeyTest();
         this.keyboard = new Keyboard(keyTest);
-        this.spacebar = new KeyboardEvent();
-        spacebar.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
-        spacebar.setKey(KeyboardEvent.KEY_SPACE);
-        keyboard.addEventListener(spacebar);
+        this.spacebarPress = new KeyboardEvent();
+        this.spacebarRelease = new KeyboardEvent();
+
+        spacebarPress.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
+        spacebarRelease.setKeyboardEventType(KeyboardEventType.KEY_RELEASED);
+        spacebarPress.setKey(KeyboardEvent.KEY_SPACE);
+        spacebarRelease.setKey(KeyboardEvent.KEY_SPACE);
+        keyboard.addEventListener(spacebarPress);
+        keyboard.addEventListener(spacebarRelease);
     }
 
 
@@ -44,10 +50,12 @@ public class Game {
 
     public void start() {
 
+        Utility.Wait(2000);
 
         while (true) {
             Target target = chooseRandomTarget();
             targetShow(target);
+            Utility.Wait(300);
         }
 
     }
@@ -58,11 +66,22 @@ public class Game {
     }
 
     public void targetShow(Target target) {
-        Utility.Wait(target.getStayTime());
+        int counter = 0;
         target.appear();
-        Utility.Wait(target.getStayTime());
-        target.die();
+        while (target.getStayTime() > counter) {
+            if (keyTest.isSpacePressed()) {
+                target.setHit(true);
 
+            }
+            if (target.isHit()) {
+                target.die();
+                target.setHit(false);
+                break;
+            }
+            Utility.Wait(1);
+            counter++ ;
+
+        }
     }
 
 

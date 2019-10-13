@@ -87,6 +87,10 @@ public class Target  {
         return height;
     }
 
+    public boolean isHit() {
+        return isHit;
+    }
+
     public void setHit(boolean isHit) {
         this.isHit = isHit;
     }
