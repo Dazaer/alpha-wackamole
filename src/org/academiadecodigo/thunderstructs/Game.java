@@ -5,6 +5,8 @@ import org.academiadecodigo.simplegraphics.keyboard.KeyboardEvent;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEventType;
 import org.academiadecodigo.simplegraphics.mouse.Mouse;
 import org.academiadecodigo.simplegraphics.mouse.MouseEvent;
+import org.academiadecodigo.simplegraphics.mouse.MouseEventType;
+import org.academiadecodigo.simplegraphics.pictures.Picture;
 
 public class Game {
 
@@ -29,12 +31,18 @@ public class Game {
         spacebar.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
         spacebar.setKey(KeyboardEvent.KEY_SPACE);
         keyboard.addEventListener(spacebar);
+
     }
 
 
     public void init(){
         field = new Field();
         field.show();
+
+        Hammer hammer = new Hammer();
+        Mouse mouse = new Mouse(hammer);
+        mouse.addEventListener(MouseEventType.MOUSE_CLICKED);
+        mouse.addEventListener(MouseEventType.MOUSE_MOVED);
 
         for (int i = 0; i < targets.length; i++) {
             targets[i] = new Target();

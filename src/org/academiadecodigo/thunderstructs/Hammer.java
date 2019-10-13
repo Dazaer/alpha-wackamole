@@ -8,24 +8,22 @@ import org.academiadecodigo.simplegraphics.pictures.Picture;
 public class Hammer implements MouseHandler {
 
     private Picture hammer;
-    private Mouse mouse;
-
-    public Hammer () {
-    }
 
     @Override
     public void mouseClicked(MouseEvent mouseEvent) {
         hammer.draw();
-        System.out.println("I just cliked!");
+        System.out.println("I just clicked!");
     }
 
     @Override
     public void mouseMoved(MouseEvent mouseEvent) {
-        hammer = new Picture(mouseEvent.getX()/2 - 20,mouseEvent.getY()/2 - 50, "hammerPicture.png");
+        hammer = new Picture(mouseEvent.getX()/2 - 20,mouseEvent.getY()/2 - 50, "hammer.png");
+       // hammer.draw();
         System.out.println(mouseEvent.toString());
         hammer.translate(mouseEvent.getX()/2,mouseEvent.getY()/2);
         System.out.println(hammer.getX() + " " + hammer.getY());
         System.out.println("I'm moving");
+        }
     }
 
     /*Hammer hammer = new Hammer();
@@ -35,4 +33,4 @@ public class Hammer implements MouseHandler {
 
         mouse.addEventListener(MouseEventType.MOUSE_CLICKED);
         mouse.addEventListener(MouseEventType.MOUSE_MOVED); */
-}
+
