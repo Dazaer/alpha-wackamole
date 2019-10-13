@@ -4,10 +4,12 @@ import org.academiadecodigo.simplegraphics.keyboard.Keyboard;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEvent;
 import org.academiadecodigo.simplegraphics.mouse.Mouse;
 import org.academiadecodigo.simplegraphics.mouse.MouseEventType;
+import org.academiadecodigo.thunderstructs.Field.Field;
+import org.academiadecodigo.thunderstructs.Field.FieldBackground;
 
 public class Game {
 
-    private Field field;
+    private FieldBackground background;
     private Target[] targets = new Target[6];
     private Hammer hammer;
     private Mouse mouse;
@@ -17,17 +19,18 @@ public class Game {
     private KeyboardEvent spacebarPress;
     private KeyboardEvent spacebarRelease;
 
+    private boolean gameBeginning;
+
 
 
     public Game() {
 
-        field = new Field();
-        field.show();
-
+        background = new FieldBackground();
+        background.show();
     }
 
 
-    public void init(){
+    public void init() {
 
         for (int i = 0; i < targets.length; i++) {
             targets[i] = new Target();
@@ -55,6 +58,10 @@ public class Game {
     public Target chooseRandomTarget() {
         int randomNumber = (int) (Math.random()*targets.length);
         return targets[randomNumber];
+    }
+
+    public void setGameBeginning(boolean gameBeginning) {
+        this.gameBeginning = gameBeginning;
     }
 
 
