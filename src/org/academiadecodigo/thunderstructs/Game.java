@@ -24,16 +24,8 @@ public class Game {
 
 
     public Game() {
-
         field = new Field();
         field.show();
-
-    }
-
-    public void score(){
-        this.scoreText = new Text(Field.MARGIN + 18,Field.MARGIN + 80, String.valueOf(score));
-        this.scoreText.grow(15,30);
-        this.scoreText.setColor(Color.YELLOW);
     }
 
 
@@ -47,6 +39,11 @@ public class Game {
 
         mouse.addEventListener(MouseEventType.MOUSE_CLICKED);
         mouse.addEventListener(MouseEventType.MOUSE_MOVED);
+
+        this.scoreText = new Text(Field.MARGIN + 130,Field.MARGIN + 140, String.valueOf(score));
+        this.scoreText.grow(20,40);
+        this.scoreText.setColor(Color.YELLOW);
+        this.scoreText.draw();
     }
 
     public void start() {
@@ -66,6 +63,14 @@ public class Game {
         return targets[randomNumber];
     }
 
+    public void updateScore(){
+        if(score == 9){
+            scoreText.grow(18 ,0);
+        }
+        score ++;
+        scoreText.setText(String.valueOf(score));
+    }
+
 
     /** Takes a target (will be random) and makes it appear on the screen. If there is an input it will disappear */
     public void targetShow(Target target) {
@@ -77,9 +82,7 @@ public class Game {
             if ((hammer.getClickX() > target.getWidth() && hammer.getClickX() < target.getWidth()+ Target.X) &&
                     (hammer.getClickY() > target.getHeight() && hammer.getClickY() < target.getHeight()+ Target.Y)) {
                 target.disappear();
-                score++;
-                score();
-                System.out.println(score);
+                updateScore();
                 break;
             }
 
