@@ -69,7 +69,7 @@ public class Target  {
 
     }
 
-    public void die() {
+    public void disappear() {
         target.delete();
     }
 

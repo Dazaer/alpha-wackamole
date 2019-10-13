@@ -2,11 +2,8 @@ package org.academiadecodigo.thunderstructs;
 
 import org.academiadecodigo.simplegraphics.keyboard.Keyboard;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEvent;
-import org.academiadecodigo.simplegraphics.keyboard.KeyboardEventType;
 import org.academiadecodigo.simplegraphics.mouse.Mouse;
-import org.academiadecodigo.simplegraphics.mouse.MouseEvent;
 import org.academiadecodigo.simplegraphics.mouse.MouseEventType;
-import org.academiadecodigo.simplegraphics.pictures.Picture;
 
 public class Game {
 
@@ -23,35 +20,24 @@ public class Game {
 
 
     public Game() {
-        this.hammer = new Hammer();
-        this.mouse = new Mouse(hammer);
 
-        this.keyTest = new KeyTest();
-        this.keyboard = new Keyboard(keyTest);
-        this.spacebarPress = new KeyboardEvent();
-        this.spacebarRelease = new KeyboardEvent();
+        field = new Field();
+        field.show();
 
-        spacebarPress.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
-        spacebarRelease.setKeyboardEventType(KeyboardEventType.KEY_RELEASED);
-        spacebarPress.setKey(KeyboardEvent.KEY_SPACE);
-        spacebarRelease.setKey(KeyboardEvent.KEY_SPACE);
-        keyboard.addEventListener(spacebarPress);
-        keyboard.addEventListener(spacebarRelease);
-
-        mouse.addEventListener(MouseEventType.MOUSE_CLICKED);
-        mouse.addEventListener(MouseEventType.MOUSE_MOVED);
     }
 
 
     public void init(){
 
-        field = new Field();
-        field.show();
-
-
         for (int i = 0; i < targets.length; i++) {
             targets[i] = new Target();
         }
+
+        this.hammer = new Hammer();
+        this.mouse = new Mouse(hammer);
+
+        mouse.addEventListener(MouseEventType.MOUSE_CLICKED);
+        mouse.addEventListener(MouseEventType.MOUSE_MOVED);
     }
 
     public void start() {
@@ -76,11 +62,12 @@ public class Game {
     public void targetShow(Target target) {
         int counter = 0;
         target.appear();
+        hammer.refresh();
         while (target.getStayTime() > counter) {
 
             if ((hammer.getClickX() > target.getWidth() && hammer.getClickX() < target.getWidth()+ Target.X) &&
                     (hammer.getClickY() > target.getHeight() && hammer.getClickY() < target.getHeight()+ Target.Y)) {
-                target.die();
+                target.disappear();
                 break;
             }
 
@@ -88,7 +75,7 @@ public class Game {
             counter++ ;
 
         }
-        target.die();
+        target.disappear();
     }
 
 
