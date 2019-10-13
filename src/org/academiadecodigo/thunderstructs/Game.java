@@ -1,34 +1,28 @@
 package org.academiadecodigo.thunderstructs;
 
-import org.academiadecodigo.simplegraphics.graphics.Canvas;
-import org.academiadecodigo.simplegraphics.keyboard.Keyboard;
-import org.academiadecodigo.simplegraphics.keyboard.KeyboardEvent;
 import org.academiadecodigo.simplegraphics.mouse.Mouse;
 import org.academiadecodigo.simplegraphics.mouse.MouseEventType;
+import org.academiadecodigo.thunderstructs.Field.Background;
 
 public class Game {
 
-    private Field field;
+    private Background background;
     private Target[] targets = new Target[6];
     private Hammer hammer;
     private Mouse mouse;
-
-    private KeyTest keyTest;
-    private Keyboard keyboard;
-    private KeyboardEvent spacebarPress;
-    private KeyboardEvent spacebarRelease;
-
+    private int timeLimit;
 
 
     public Game() {
 
-        field = new Field();
-        field.show();
+        this.timeLimit = 5;
 
+        background = new Background();
+        background.show();
     }
 
 
-    public void init(){
+    public void init() {
 
         for (int i = 0; i < targets.length; i++) {
             targets[i] = new Target();
@@ -43,11 +37,18 @@ public class Game {
 
     public void start() {
 
-        Utility.Wait(2000);
+        int timer = 0;
+        Utility.Wait(1000);
 
         while (true) {
             Target target = chooseRandomTarget();
             targetShow(target);
+
+            if (timer >= timeLimit) {
+                endGame();
+                break;
+            }
+
             Utility.Wait(400);
         }
 
@@ -77,6 +78,16 @@ public class Game {
 
         }
         target.disappear();
+    }
+
+    public void endGame() {
+
+        for (Target target: targets) {
+            target.disappear();
+        }
+
+        System.out.println("The game has ended!");
+        //show image of game over
     }
 
 
