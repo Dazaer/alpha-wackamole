@@ -11,16 +11,12 @@ public class Game {
     private Target[] targets = new Target[6];
     private Hammer hammer;
     private Mouse mouse;
-
-    private KeyTest keyTest;
-    private Keyboard keyboard;
-    private KeyboardEvent spacebarPress;
-    private KeyboardEvent spacebarRelease;
-
+    private int timeLimit;
 
 
     public Game() {
 
+        this.timeLimit = 5;
         field = new Field();
         field.show();
 
@@ -42,11 +38,18 @@ public class Game {
 
     public void start() {
 
-        Utility.Wait(2000);
+        int timer = 0;
+        Utility.Wait(1000);
 
         while (true) {
             Target target = chooseRandomTarget();
             targetShow(target);
+
+            if (timer >= timeLimit) {
+                endGame();
+                break;
+            }
+
             Utility.Wait(400);
         }
 
@@ -76,6 +79,16 @@ public class Game {
 
         }
         target.disappear();
+    }
+
+    public void endGame() {
+
+        for (Target target: targets) {
+            target.disappear();
+        }
+
+        System.out.println("The game has ended!");
+        //show image of game over
     }
 
 
