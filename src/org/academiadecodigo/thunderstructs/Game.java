@@ -1,5 +1,7 @@
 package org.academiadecodigo.thunderstructs;
 
+import org.academiadecodigo.simplegraphics.graphics.Color;
+import org.academiadecodigo.simplegraphics.graphics.Text;
 import org.academiadecodigo.simplegraphics.mouse.Mouse;
 import org.academiadecodigo.simplegraphics.mouse.MouseEventType;
 import org.academiadecodigo.thunderstructs.Field.*;
@@ -12,12 +14,15 @@ public class Game {
     private Instructions instructions;
     private ClickToStart clickToStart;
     private GameOver gameOver;
+    private Text scoreText;
 
     private boolean startOfGame;
     private int timeLimit;
+    private int score;
     private Target[] targets = new Target[6];
     private Hammer hammer;
     private Mouse mouse;
+
 
     public Game() {
 
@@ -28,9 +33,9 @@ public class Game {
         this.gameOver = new GameOver();
 
         this.timeLimit = 5;
+        this.score = 0;
         this.startOfGame = true;
     }
-
 
 
     public void init() {
@@ -44,6 +49,11 @@ public class Game {
         mouse.addEventListener(MouseEventType.MOUSE_CLICKED);
         mouse.addEventListener(MouseEventType.MOUSE_MOVED);
 
+        this.scoreText = new Text(Field.MARGIN + 130,Field.MARGIN + 140, String.valueOf(score));
+        this.scoreText.grow(20,40);
+        this.scoreText.setColor(Color.YELLOW);
+        this.scoreText.draw();
+
         while (hammer.getFirstClick()) {
             Utility.Wait(500);
         }
@@ -54,7 +64,6 @@ public class Game {
         instructions.hide();
 
         for (int i = 0; i < targets.length; i++) {
-
             targets[i] = new Target();
         }
 
@@ -84,6 +93,14 @@ public class Game {
         return targets[randomNumber];
     }
 
+    public void updateScore(){
+        if(score == 9){
+            scoreText.grow(18 ,0);
+        }
+        score ++;
+        scoreText.setText(String.valueOf(score));
+    }
+
 
     /** Takes a target (will be random) and makes it appear on the screen. If there is an input it will disappear */
     public void targetShow(Target target) {
@@ -95,6 +112,7 @@ public class Game {
             if ((hammer.getClickX() > target.getWidth() && hammer.getClickX() < target.getWidth()+ Target.X) &&
                     (hammer.getClickY() > target.getHeight() && hammer.getClickY() < target.getHeight()+ Target.Y)) {
                 target.disappear();
+                updateScore();
                 break;
             }
 

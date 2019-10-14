@@ -37,9 +37,12 @@ public class Hammer implements MouseHandler {
 
     }
 
-
     @Override
     public void mouseMoved(MouseEvent mouseEvent) {
+        double xinicial = hammer.getX();
+        double yinicial = hammer.getY();
+        hammer.translate(mouseEvent.getX() - xinicial-20, mouseEvent.getY() - yinicial-50);
+
         double xInicial = hammer.getX();
         double yInicial = hammer.getY();
         this.x = xInicial;
@@ -47,12 +50,14 @@ public class Hammer implements MouseHandler {
         if (mouseEvent.getX() < 1050.0 && mouseEvent.getY() < 510) {
             hammer.translate(mouseEvent.getX() - xInicial - 30, mouseEvent.getY() - yInicial - 60);
         }
-        ///if(mouseEvent.getX() >= 1055.0){
-           // hammer.translate( 0,mouseEvent.getY()-yInicial-60);
-        //}
-        //if(mouseEvent.getY() >= 510){
-          //  hammer.translate(mouseEvent.getX() - xInicial -30,0);
-        //}
+        /*
+        if(mouseEvent.getX() >= 1055.0){
+            hammer.translate( 0,mouseEvent.getY()-yInicial-60);
+        }
+        if(mouseEvent.getY() >= 510){
+           hammer.translate(mouseEvent.getX() - xInicial -30,0);
+        }
+         */
     }
 
     public boolean getFirstClick() {
