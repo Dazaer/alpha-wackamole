@@ -6,28 +6,29 @@ import org.academiadecodigo.thunderstructs.Field.*;
 
 public class Game {
 
+    /** Field graphics */
     private Background background;
     private Begin begin;
     private Instructions instructions;
     private ClickToStart clickToStart;
     private GameOver gameOver;
 
+    private boolean startOfGame;
+    private int timeLimit;
     private Target[] targets = new Target[6];
     private Hammer hammer;
     private Mouse mouse;
-    private boolean gameBegin;
-    private int timeLimit;
 
     public Game() {
 
-        this.timeLimit = 5;
+        this.background = new Background();
+        this.begin = new Begin();
+        this.instructions = new Instructions();
+        this.clickToStart = new ClickToStart();
+        this.gameOver = new GameOver();
 
-        background = new Background();
-        begin = new Begin();
-        instructions = new Instructions();
-        clickToStart = new ClickToStart();
-        gameOver = new GameOver();
-        gameBegin = true;
+        this.timeLimit = 5;
+        this.startOfGame = true;
     }
 
 
@@ -115,11 +116,11 @@ public class Game {
     }
 
     public void setBegin(boolean gameBegin) {
-        this.gameBegin = gameBegin;
+        this.startOfGame = gameBegin;
     }
 
     public boolean getBegin() {
-        return gameBegin;
+        return startOfGame;
     }
 
 
