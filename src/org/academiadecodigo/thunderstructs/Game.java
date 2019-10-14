@@ -32,6 +32,10 @@ public class Game {
         this.clickToStart = new ClickToStart();
         this.gameOver = new GameOver();
 
+        this.scoreText = new Text(Field.MARGIN + 130,Field.MARGIN + 140, String.valueOf(score));
+        scoreText.grow(20,40);
+        scoreText.setColor(Color.YELLOW);
+
         this.timeLimit = 5;
         this.score = 0;
         this.startOfGame = true;
@@ -49,20 +53,18 @@ public class Game {
         mouse.addEventListener(MouseEventType.MOUSE_CLICKED);
         mouse.addEventListener(MouseEventType.MOUSE_MOVED);
 
-        this.scoreText = new Text(Field.MARGIN + 130,Field.MARGIN + 140, String.valueOf(score));
-        this.scoreText.grow(20,40);
-        this.scoreText.setColor(Color.YELLOW);
-        this.scoreText.draw();
-
+        /** Wait for first click to begin the game */
         while (hammer.getFirstClick()) {
             Utility.Wait(500);
         }
+
         begin.hide();
         clickToStart.hide();
         instructions.show();
         Utility.Wait(3000);
         instructions.hide();
 
+        scoreText.draw();
         for (int i = 0; i < targets.length; i++) {
             targets[i] = new Target();
         }
@@ -85,6 +87,10 @@ public class Game {
 
             Utility.Wait(400);
         }
+
+    }
+
+    public void setText() {
 
     }
 
@@ -132,6 +138,8 @@ public class Game {
         System.out.println("The game has ended!");
         //show image of game over
     }
+
+
 
     public void setBegin(boolean gameBegin) {
         this.startOfGame = gameBegin;
