@@ -8,6 +8,10 @@ import org.academiadecodigo.thunderstructs.Field.*;
 
 public class Game {
 
+
+    private Utility clickStartWait;
+    private Utility multiThread2;
+
     /** Field graphics */
     private Background background;
     private Begin begin;
@@ -25,6 +29,7 @@ public class Game {
 
 
     public Game() {
+
 
         this.background = new Background();
         this.begin = new Begin();
@@ -46,7 +51,7 @@ public class Game {
 
         background.show();
         begin.show();
-        clickToStart.show();
+        //clickToStart.show();
 
         this.hammer = new Hammer();
         this.mouse = new Mouse(hammer);
@@ -55,11 +60,11 @@ public class Game {
 
         /** Wait for first click to begin the game */
         while (hammer.getFirstClick()) {
-            Utility.Wait(500);
+            clickToStart.blink();
+            Utility.Wait(200);
         }
 
         begin.hide();
-        clickToStart.hide();
         instructions.show();
         Utility.Wait(3000);
         instructions.hide();
