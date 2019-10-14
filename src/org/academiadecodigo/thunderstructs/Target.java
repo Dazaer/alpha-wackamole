@@ -21,7 +21,7 @@ public class Target  {
 
         /**implement a prettier way to do this... */
 
-        stayTime = 10000;
+        stayTime = 1000;
         isHit = false;
 
         switch (targetsCreated) {

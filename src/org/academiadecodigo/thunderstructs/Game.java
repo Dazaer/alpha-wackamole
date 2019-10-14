@@ -13,12 +13,10 @@ public class Game {
     private Target[] targets = new Target[6];
     private Hammer hammer;
     private Mouse mouse;
-    private int timeLimit;
 
 
     public Game() {
         timer.scheduleAtFixedRate(task,1000,1000);
-        this.timeLimit = 10000;
 
         background = new Background();
         background.show();
@@ -40,21 +38,21 @@ public class Game {
 
     public void start() {
 
-        int timer = 0;
-        Utility.Wait(1000);
-        int stayTime = 400;
+        int timeru = 30000;
+
+        Utility.Wait(3000);
+        int stayTime = 500;
 
         while (true) {
             Target target = chooseRandomTarget();
             targetShow(target);
+            //Utility.Wait(stayTime);
 
-            if (timer >= timeLimit) {
+            if (timeru == secondsPassed) {
                 endGame();
                 break;
             }
 
-            Utility.Wait(stayTime);
-            timer += stayTime;
         }
 
     }
@@ -95,12 +93,12 @@ public class Game {
         //show image of game over
     }
 
-    int secondsPassed;
-    Timer timer = new Timer();
-    TimerTask task = new TimerTask() {
+    private int secondsPassed;
+    private Timer timer = new Timer();
+    private TimerTask task = new TimerTask() {
         @Override
         public void run() {
-            secondsPassed++;
+            secondsPassed += 1000;
             System.out.println("Seconds passed: " + secondsPassed);
         }
     };
