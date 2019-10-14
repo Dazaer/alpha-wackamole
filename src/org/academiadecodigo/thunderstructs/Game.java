@@ -2,38 +2,46 @@ package org.academiadecodigo.thunderstructs;
 
 import org.academiadecodigo.simplegraphics.graphics.Color;
 import org.academiadecodigo.simplegraphics.graphics.Text;
-import org.academiadecodigo.simplegraphics.keyboard.Keyboard;
-import org.academiadecodigo.simplegraphics.keyboard.KeyboardEvent;
 import org.academiadecodigo.simplegraphics.mouse.Mouse;
 import org.academiadecodigo.simplegraphics.mouse.MouseEventType;
+import org.academiadecodigo.thunderstructs.Field.*;
 
 public class Game {
 
-    private Field field;
+    private Background background;
+    private Begin begin;
+    private Instructions instructions;
+    private ClickToStart clickToStart;
+    private GameOver gameOver;
+
     private Target[] targets = new Target[6];
     private Hammer hammer;
     private Mouse mouse;
+    private boolean gameBegin;
+    private int timeLimit;
     private int score = 0;
     private Text scoreText;
 
-    private KeyTest keyTest;
-    private Keyboard keyboard;
-    private KeyboardEvent spacebarPress;
-    private KeyboardEvent spacebarRelease;
-
-
 
     public Game() {
-        field = new Field();
-        field.show();
+
+        this.timeLimit = 5;
+
+        background = new Background();
+        begin = new Begin();
+        instructions = new Instructions();
+        clickToStart = new ClickToStart();
+        gameOver = new GameOver();
+        gameBegin = true;
     }
 
 
-    public void init(){
+    public void init() {
 
-        for (int i = 0; i < targets.length; i++) {
-            targets[i] = new Target();
-        }
+        background.show();
+        begin.show();
+        clickToStart.show();
+
         this.hammer = new Hammer();
         this.mouse = new Mouse(hammer);
 
@@ -44,15 +52,36 @@ public class Game {
         this.scoreText.grow(20,40);
         this.scoreText.setColor(Color.YELLOW);
         this.scoreText.draw();
+
+        while (hammer.getFirstClick()) {
+            Utility.Wait(500);
+        }
+        begin.hide();
+        clickToStart.hide();
+        instructions.show();
+        Utility.Wait(3000);
+        instructions.hide();
+
+        for (int i = 0; i < targets.length; i++) {
+            targets[i] = new Target();
+        }
+
     }
 
     public void start() {
 
-        Utility.Wait(2000);
+        int timer = 0;
+        Utility.Wait(1000);
 
         while (true) {
             Target target = chooseRandomTarget();
             targetShow(target);
+
+            if (timer >= timeLimit) {
+                endGame();
+                break;
+            }
+
             Utility.Wait(400);
         }
 
@@ -93,6 +122,14 @@ public class Game {
         target.disappear();
     }
 
+    public void endGame() {
 
+        for (Target target: targets) {
+            target.disappear();
+        }
+
+        System.out.println("The game has ended!");
+        //show image of game over
+    }
 
 }
