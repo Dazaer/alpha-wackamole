@@ -26,9 +26,9 @@ public class ClickToStart extends Field {
 
         int seconds;
         long currentTime = System.currentTimeMillis();
-        System.out.println(currentTime + " is current and created is: " + createdTime);
 
-        seconds = (int)((currentTime - this.createdTime) / 1000);
+        seconds = (int)((currentTime - createdTime) / 1000);//time difference between
+        System.out.println(seconds);
 
         if(seconds % 2 == 0) {
             show();
