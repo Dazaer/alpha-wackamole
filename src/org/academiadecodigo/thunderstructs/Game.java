@@ -9,9 +9,6 @@ import org.academiadecodigo.thunderstructs.Field.*;
 public class Game {
 
 
-    private Utility clickStartWait;
-    private Utility multiThread2;
-
     /** Field graphics */
     private Background background;
     private Begin begin;
@@ -64,6 +61,7 @@ public class Game {
             Utility.Wait(200);
         }
 
+        clickToStart.hide();
         begin.hide();
         instructions.show();
         Utility.Wait(3000);
