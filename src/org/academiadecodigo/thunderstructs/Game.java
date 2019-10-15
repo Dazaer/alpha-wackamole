@@ -38,17 +38,15 @@ public class Game {
 
     public void start() {
 
-        int timeru = 30000;
-
-        Utility.Wait(3000);
-        int stayTime = 500;
+        Utility.Wait(2000);
+        int stayTime = 1000;
 
         while (true) {
             Target target = chooseRandomTarget();
             targetShow(target);
-            //Utility.Wait(stayTime);
+            Utility.Wait(stayTime);
 
-            if (timeru == secondsPassed) {
+            if (secondsRemaining == 0) {
                 endGame();
                 break;
             }
@@ -93,13 +91,16 @@ public class Game {
         //show image of game over
     }
 
-    private int secondsPassed;
+    private int secondsRemaining = 60;
     private Timer timer = new Timer();
     private TimerTask task = new TimerTask() {
         @Override
         public void run() {
-            secondsPassed += 1000;
-            System.out.println("Seconds passed: " + secondsPassed);
+            secondsRemaining -= 1;
+            System.out.println("Seconds remaining: " + secondsRemaining);
+            if(secondsRemaining == 0){
+                task.cancel();
+            }
         }
     };
 
