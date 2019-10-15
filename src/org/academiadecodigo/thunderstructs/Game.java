@@ -28,7 +28,7 @@ public class Game {
 
 
     public Game() {
-        timer.scheduleAtFixedRate(task,1000,1000);
+
 
         background = new Background();
         background.show();
@@ -77,6 +77,7 @@ public class Game {
     }
 
     public void start() {
+        timer.scheduleAtFixedRate(task,1000,1000);
 
         Utility.Wait(2000);
         int stayTime = 1000;
@@ -90,8 +91,6 @@ public class Game {
                 endGame();
                 break;
             }
-            Utility.Wait(400);
-
         }
 
     }
