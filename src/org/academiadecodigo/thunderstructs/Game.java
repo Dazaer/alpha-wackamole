@@ -6,6 +6,9 @@ import org.academiadecodigo.simplegraphics.mouse.Mouse;
 import org.academiadecodigo.simplegraphics.mouse.MouseEventType;
 import org.academiadecodigo.thunderstructs.Field.*;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class Game {
 
 
@@ -26,6 +29,10 @@ public class Game {
 
 
     public Game() {
+        timer.scheduleAtFixedRate(task,1000,1000);
+
+        background = new Background();
+        background.show();
 
 
         this.background = new Background();
@@ -76,19 +83,20 @@ public class Game {
 
     public void start() {
 
-        int timer = 0;
-        Utility.Wait(1000);
+        Utility.Wait(2000);
+        int stayTime = 1000;
 
         while (true) {
             Target target = chooseRandomTarget();
             targetShow(target);
+            Utility.Wait(stayTime);
 
-            if (timer >= timeLimit) {
+            if (secondsRemaining == 0) {
                 endGame();
                 break;
             }
-
             Utility.Wait(400);
+
         }
 
     }
@@ -151,6 +159,19 @@ public class Game {
     public boolean getBegin() {
         return startOfGame;
     }
+
+    private int secondsRemaining = 60;
+    private Timer timer = new Timer();
+    private TimerTask task = new TimerTask() {
+        @Override
+        public void run() {
+            secondsRemaining -= 1;
+            System.out.println("Seconds remaining: " + secondsRemaining);
+            if(secondsRemaining == 0){
+                task.cancel();
+            }
+        }
+    };
 
 
 
