@@ -1,6 +1,5 @@
 package org.academiadecodigo.thunderstructs;
 
-import org.academiadecodigo.simplegraphics.mouse.Mouse;
 import org.academiadecodigo.simplegraphics.mouse.MouseEvent;
 import org.academiadecodigo.simplegraphics.mouse.MouseHandler;
 import org.academiadecodigo.simplegraphics.pictures.Picture;
@@ -10,14 +9,14 @@ public class Hammer implements MouseHandler {
     private Picture hammer;
     private double clickX;
     private double clickY;
-    private double x;
-    private double y;
     private boolean firstClick;
+    private boolean replayClick;
 
     public Hammer(){
         hammer = new Picture(5,5,"hammer.png");
         hammer.draw();
         this.firstClick = true;
+        this.replayClick = false;
     }
 
 
@@ -25,10 +24,18 @@ public class Hammer implements MouseHandler {
     @Override
     public void mouseClicked(MouseEvent mouseEvent) {
 
+
+        /** If it's the first click make first click true to continue through init() and start game */
         if(firstClick) {
-            System.out.println("not yet clicked");
             firstClick = false;
-            System.out.println(firstClick);
+            return;
+        }
+
+        /** If the game has ended or is beginning then it should change to false and replay game or start it */
+
+        if (replayClick) {
+            replayClick = false;
+            return;
         }
 
         System.out.println("I just clicked!");
@@ -41,8 +48,6 @@ public class Hammer implements MouseHandler {
     public void mouseMoved(MouseEvent mouseEvent) {
         double xInicial = hammer.getX();
         double yInicial = hammer.getY();
-        this.x = xInicial;
-        this.y = yInicial;
 
         if(mouseEvent.getX() <= 50){
             hammer.translate(0,mouseEvent.getY() - yInicial-60);
@@ -64,8 +69,22 @@ public class Hammer implements MouseHandler {
 
     }
 
-    public boolean getFirstClick() {
+
+    public void refresh() {
+        hammer.delete();
+        hammer.draw();
+    }
+
+    public boolean isFirstClick() {
         return this.firstClick;
+    }
+
+    public boolean isReplayClick() {
+        return replayClick;
+    }
+
+    public void setReplayClick(boolean replayClick) {
+        this.replayClick = replayClick;
     }
 
     public double getClickX() {
@@ -74,11 +93,6 @@ public class Hammer implements MouseHandler {
 
     public double getClickY() {
         return this.clickY;
-    }
-
-    public void refresh() {
-        hammer.delete();
-        hammer.draw();
     }
 
 }

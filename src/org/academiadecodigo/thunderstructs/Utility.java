@@ -6,11 +6,7 @@ public class Utility {
         try {
             Thread.sleep(stayTime);
         } catch (Exception e){
-
-            //if (keyTest.isSpacePressed()) {
-                System.out.println("Interrupted.");
                 Thread.currentThread().interrupt();
-            //}
         }
     }
 }
