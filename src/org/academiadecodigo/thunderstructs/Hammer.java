@@ -10,11 +10,13 @@ public class Hammer implements MouseHandler {
     private double clickX;
     private double clickY;
     private boolean firstClick;
+    private boolean replayClick;
 
     public Hammer(){
         hammer = new Picture(5,5,"hammer.png");
         hammer.draw();
         this.firstClick = true;
+        this.replayClick = false;
     }
 
 
@@ -22,8 +24,17 @@ public class Hammer implements MouseHandler {
     @Override
     public void mouseClicked(MouseEvent mouseEvent) {
 
+
+        /** If it's the first click make first click true to continue through init() and start game */
         if(firstClick) {
             firstClick = false;
+            return;
+        }
+
+        /** If the game has ended or is beginning then it should change to false and replay game or start it */
+
+        if (replayClick) {
+            replayClick = false;
             return;
         }
 
@@ -61,8 +72,16 @@ public class Hammer implements MouseHandler {
         hammer.draw();
     }
 
-    public boolean getFirstClick() {
+    public boolean isFirstClick() {
         return this.firstClick;
+    }
+
+    public boolean isReplayClick() {
+        return replayClick;
+    }
+
+    public void setReplayClick(boolean replayClick) {
+        this.replayClick = replayClick;
     }
 
     public double getClickX() {

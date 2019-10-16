@@ -9,7 +9,13 @@ public class Main {
 
         game.init();
 
-        game.start();
+
+        while (true) {
+
+            game.start();
+
+        }
+
 
 
     }

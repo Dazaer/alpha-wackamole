@@ -20,14 +20,13 @@ public class Game {
     private GameOver gameOver;
     private Text scoreText;
 
-    private boolean startOfGame;
-    private int timeLimit;
-    private Timer timer;
-    private TimerTask timerTask;
-    private int score;
-    private Target[] targets = new Target[6];
     private Hammer hammer;
     private Mouse mouse;
+    private TimerTask timerTask;
+    private Timer timer;
+    private int timeLimit;
+    private int score;
+    private Target[] targets = new Target[6];
 
 
     public Game() {
@@ -43,24 +42,9 @@ public class Game {
         this.clickToStart = new ClickToStart();
         this.gameOver = new GameOver();
 
-        this.scoreText = new Text(Field.MARGIN + 130,Field.MARGIN + 140, String.valueOf(score));
-        scoreText.grow(20,40);
-        scoreText.setColor(Color.YELLOW);
+        initializeScore();
+        initializeTimer();
 
-        this.startOfGame = true;
-        this.score = 0;
-        this.timeLimit = 20;
-        this.timer = new Timer();
-        this.timerTask = new TimerTask() {
-            @Override
-            public void run() {
-                timeLimit -= 1;
-                System.out.println("Seconds remaining: " + timeLimit);
-                if(timeLimit == 0){
-                    timerTask.cancel();
-                }
-            }
-        };
     }
 
 
@@ -75,7 +59,7 @@ public class Game {
         mouse.addEventListener(MouseEventType.MOUSE_MOVED);
 
         /** Wait for first click to begin the game */
-        while (hammer.getFirstClick()) {
+        while (hammer.isFirstClick()) {
             clickToStart.blink();
             Utility.Wait(200);
         }
@@ -86,16 +70,18 @@ public class Game {
         Utility.Wait(3000);
         instructions.hide();
 
-        scoreText.draw();
         for (int i = 0; i < targets.length; i++) {
             targets[i] = new Target();
         }
+
+        start();
 
     }
 
 
     public void start() {
 
+        scoreText.draw();
         timer.scheduleAtFixedRate(timerTask,1000,1000);
 
         /** Time to wait between each head */
@@ -115,17 +101,42 @@ public class Game {
     }
 
 
+    public void initializeScore() {
+
+        System.out.println("initializing score");
+
+        if (scoreText != null) {
+            this.scoreText.delete();
+        }
+
+        this.score = 0;
+        this.scoreText = new Text(Field.MARGIN + 130,Field.MARGIN + 140, String.valueOf(score));
+        this.scoreText.grow(20,40);
+        this.scoreText.setColor(Color.YELLOW);
+
+    }
+
+
+    public void initializeTimer() {
+
+        this.timeLimit = 5;
+        this.timer = new Timer();
+        this.timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                timeLimit -= 1;
+                System.out.println("Seconds remaining: " + timeLimit);
+                if(timeLimit == 0){
+                    timerTask.cancel();
+                }
+            }
+        };
+
+    }
+
     public Target chooseRandomTarget() {
         int randomNumber = (int) (Math.random()*targets.length);
         return targets[randomNumber];
-    }
-
-    public void updateScore(){
-        if(score == 9){
-            scoreText.grow(18 ,0);
-        }
-        score ++;
-        scoreText.setText(String.valueOf(score));
     }
 
 
@@ -151,6 +162,15 @@ public class Game {
     }
 
 
+    public void updateScore(){
+        if(score == 9){
+            scoreText.grow(18 ,0);
+        }
+        score ++;
+        scoreText.setText(String.valueOf(score));
+    }
+
+
     public void endGame() {
 
         for (Target target: targets) {
@@ -158,9 +178,25 @@ public class Game {
         }
 
         gameOver.show();
+        Utility.Wait(1000);
+        hammer.setReplayClick(true);
 
-        System.out.println("The game has ended!");
-        //show image of game over
+        /** Until player clicks game over screen shows */
+        while (hammer.isReplayClick()) {
+            Utility.Wait(50);
+            System.out.println("Waiting for replay click");
+        }
+
+        getReplay();
+    }
+
+    public void getReplay() {
+
+        System.out.println("IN REPLAY");
+
+            initializeScore();
+            initializeTimer();
+            gameOver.hide();
     }
 
 }
