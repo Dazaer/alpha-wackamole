@@ -18,6 +18,7 @@ public class Game {
     private Instructions instructions;
     private ClickToStart clickToStart;
     private GameOver gameOver;
+    private Score scoreImage;
     private Text scoreText;
 
     private Hammer hammer;
@@ -41,6 +42,7 @@ public class Game {
         this.instructions = new Instructions();
         this.clickToStart = new ClickToStart();
         this.gameOver = new GameOver();
+        this.scoreImage = new Score();
 
         initializeScore();
         initializeTimer();
@@ -69,6 +71,8 @@ public class Game {
         instructions.show();
         Utility.Wait(3000);
         instructions.hide();
+        this.scoreText.draw();
+        this.scoreImage.show();
 
         for (int i = 0; i < targets.length; i++) {
             targets[i] = new Target();
