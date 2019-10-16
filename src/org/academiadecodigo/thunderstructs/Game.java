@@ -14,6 +14,7 @@ public class Game {
     private Instructions instructions;
     private ClickToStart clickToStart;
     private GameOver gameOver;
+    private Score scoreImage;
     private Text scoreText;
 
     private boolean startOfGame;
@@ -31,6 +32,7 @@ public class Game {
         this.instructions = new Instructions();
         this.clickToStart = new ClickToStart();
         this.gameOver = new GameOver();
+        this.scoreImage = new Score();
 
         this.timeLimit = 5;
         this.score = 0;
@@ -49,10 +51,10 @@ public class Game {
         mouse.addEventListener(MouseEventType.MOUSE_CLICKED);
         mouse.addEventListener(MouseEventType.MOUSE_MOVED);
 
-        this.scoreText = new Text(Field.MARGIN + 130,Field.MARGIN + 140, String.valueOf(score));
+        this.scoreText = new Text(Field.MARGIN + 130,Field.MARGIN + 170, String.valueOf(score));
         this.scoreText.grow(20,40);
         this.scoreText.setColor(Color.YELLOW);
-        this.scoreText.draw();
+
 
         while (hammer.getFirstClick()) {
             Utility.Wait(500);
@@ -62,6 +64,8 @@ public class Game {
         instructions.show();
         Utility.Wait(3000);
         instructions.hide();
+        this.scoreText.draw();
+        this.scoreImage.show();
 
         for (int i = 0; i < targets.length; i++) {
             targets[i] = new Target();
