@@ -27,8 +27,8 @@ public class ClickToStart extends Field {
         int seconds;
         long currentTime = System.currentTimeMillis();
 
-        seconds = (int)((currentTime - createdTime) / 1000);//time difference between
-        System.out.println(seconds);
+        /** time difference between 1970 + when it was created and time every loop in milliseconds. Divide by 1000 gives the seconds. */
+        seconds = (int)((currentTime - createdTime) / 1000);
 
         if(seconds % 2 == 0) {
             show();

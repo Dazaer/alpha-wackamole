@@ -22,6 +22,8 @@ public class Game {
 
     private boolean startOfGame;
     private int timeLimit;
+    private Timer timer;
+    private TimerTask timerTask;
     private int score;
     private Target[] targets = new Target[6];
     private Hammer hammer;
@@ -29,7 +31,7 @@ public class Game {
 
 
     public Game() {
-        timer.scheduleAtFixedRate(task,1000,1000);
+
 
         background = new Background();
         background.show();
@@ -45,9 +47,20 @@ public class Game {
         scoreText.grow(20,40);
         scoreText.setColor(Color.YELLOW);
 
-        this.timeLimit = 5;
-        this.score = 0;
         this.startOfGame = true;
+        this.score = 0;
+        this.timeLimit = 20;
+        this.timer = new Timer();
+        this.timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                timeLimit -= 1;
+                System.out.println("Seconds remaining: " + timeLimit);
+                if(timeLimit == 0){
+                    timerTask.cancel();
+                }
+            }
+        };
     }
 
 
@@ -55,7 +68,6 @@ public class Game {
 
         background.show();
         begin.show();
-        //clickToStart.show();
 
         this.hammer = new Hammer();
         this.mouse = new Mouse(hammer);
@@ -81,29 +93,27 @@ public class Game {
 
     }
 
+
     public void start() {
 
-        Utility.Wait(2000);
-        int stayTime = 1000;
+        timer.scheduleAtFixedRate(timerTask,1000,1000);
+
+        /** Time to wait between each head */
+        int stayTime = 500;
 
         while (true) {
+            Utility.Wait(stayTime);
             Target target = chooseRandomTarget();
             targetShow(target);
-            Utility.Wait(stayTime);
 
-            if (secondsRemaining == 0) {
+            if (timeLimit == 0) {
                 endGame();
                 break;
             }
-            Utility.Wait(400);
-
         }
 
     }
 
-    public void setText() {
-
-    }
 
     public Target chooseRandomTarget() {
         int randomNumber = (int) (Math.random()*targets.length);
@@ -140,39 +150,17 @@ public class Game {
         target.disappear();
     }
 
+
     public void endGame() {
 
         for (Target target: targets) {
             target.disappear();
         }
 
+        gameOver.show();
+
         System.out.println("The game has ended!");
         //show image of game over
     }
-
-
-
-    public void setBegin(boolean gameBegin) {
-        this.startOfGame = gameBegin;
-    }
-
-    public boolean getBegin() {
-        return startOfGame;
-    }
-
-    private int secondsRemaining = 60;
-    private Timer timer = new Timer();
-    private TimerTask task = new TimerTask() {
-        @Override
-        public void run() {
-            secondsRemaining -= 1;
-            System.out.println("Seconds remaining: " + secondsRemaining);
-            if(secondsRemaining == 0){
-                task.cancel();
-            }
-        }
-    };
-
-
 
 }

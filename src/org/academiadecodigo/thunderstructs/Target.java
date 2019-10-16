@@ -93,7 +93,7 @@ public class Target  {
         return this.stayTime;
     }
 
-    /** FOR HIGHER DIFFICULTY MAKE STAYTIME LOWER
+    /** FOR HIGHER DIFFICULTY LEVELS MAKE STAYTIME LOWER
      *
     public void setStayTime(int stayTime) {
         this.stayTime = stayTime;
