@@ -6,7 +6,11 @@ import org.academiadecodigo.simplegraphics.mouse.Mouse;
 import org.academiadecodigo.simplegraphics.mouse.MouseEventType;
 import org.academiadecodigo.thunderstructs.Field.*;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class Game {
+
 
     /** Field graphics */
     private Background background;
@@ -19,6 +23,8 @@ public class Game {
 
     private boolean startOfGame;
     private int timeLimit;
+    private Timer timer;
+    private TimerTask timerTask;
     private int score;
     private Target[] targets = new Target[6];
     private Hammer hammer;
@@ -27,6 +33,11 @@ public class Game {
 
     public Game() {
 
+
+        background = new Background();
+        background.show();
+
+
         this.background = new Background();
         this.begin = new Begin();
         this.instructions = new Instructions();
@@ -34,9 +45,24 @@ public class Game {
         this.gameOver = new GameOver();
         this.scoreImage = new Score();
 
-        this.timeLimit = 5;
-        this.score = 0;
+        this.scoreText = new Text(Field.MARGIN + 130,Field.MARGIN + 140, String.valueOf(score));
+        scoreText.grow(20,40);
+        scoreText.setColor(Color.YELLOW);
+
         this.startOfGame = true;
+        this.score = 0;
+        this.timeLimit = 20;
+        this.timer = new Timer();
+        this.timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                timeLimit -= 1;
+                System.out.println("Seconds remaining: " + timeLimit);
+                if(timeLimit == 0){
+                    timerTask.cancel();
+                }
+            }
+        };
     }
 
 
@@ -44,53 +70,54 @@ public class Game {
 
         background.show();
         begin.show();
-        clickToStart.show();
 
         this.hammer = new Hammer();
         this.mouse = new Mouse(hammer);
         mouse.addEventListener(MouseEventType.MOUSE_CLICKED);
         mouse.addEventListener(MouseEventType.MOUSE_MOVED);
 
-        this.scoreText = new Text(Field.MARGIN + 130,Field.MARGIN + 170, String.valueOf(score));
-        this.scoreText.grow(20,40);
-        this.scoreText.setColor(Color.YELLOW);
-
-
+        /** Wait for first click to begin the game */
         while (hammer.getFirstClick()) {
-            Utility.Wait(500);
+            clickToStart.blink();
+            Utility.Wait(200);
         }
-        begin.hide();
+
         clickToStart.hide();
+        begin.hide();
         instructions.show();
         Utility.Wait(3000);
         instructions.hide();
         this.scoreText.draw();
         this.scoreImage.show();
 
+        scoreText.draw();
         for (int i = 0; i < targets.length; i++) {
             targets[i] = new Target();
         }
 
     }
 
+
     public void start() {
 
-        int timer = 0;
-        Utility.Wait(1000);
+        timer.scheduleAtFixedRate(timerTask,1000,1000);
+
+        /** Time to wait between each head */
+        int stayTime = 500;
 
         while (true) {
+            Utility.Wait(stayTime);
             Target target = chooseRandomTarget();
             targetShow(target);
 
-            if (timer >= timeLimit) {
+            if (timeLimit == 0) {
                 endGame();
                 break;
             }
-
-            Utility.Wait(400);
         }
 
     }
+
 
     public Target chooseRandomTarget() {
         int randomNumber = (int) (Math.random()*targets.length);
@@ -127,24 +154,17 @@ public class Game {
         target.disappear();
     }
 
+
     public void endGame() {
 
         for (Target target: targets) {
             target.disappear();
         }
 
+        gameOver.show();
+
         System.out.println("The game has ended!");
         //show image of game over
     }
-
-    public void setBegin(boolean gameBegin) {
-        this.startOfGame = gameBegin;
-    }
-
-    public boolean getBegin() {
-        return startOfGame;
-    }
-
-
 
 }

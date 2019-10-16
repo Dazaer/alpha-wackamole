@@ -21,7 +21,7 @@ public class Target  {
 
         /**implement a prettier way to do this... */
 
-        stayTime = 10000;
+        stayTime = 1000;
         isHit = false;
 
         switch (targetsCreated) {
@@ -93,7 +93,7 @@ public class Target  {
         return this.stayTime;
     }
 
-    /** FOR HIGHER DIFFICULTY MAKE STAYTIME LOWER
+    /** FOR HIGHER DIFFICULTY LEVELS MAKE STAYTIME LOWER
      *
     public void setStayTime(int stayTime) {
         this.stayTime = stayTime;

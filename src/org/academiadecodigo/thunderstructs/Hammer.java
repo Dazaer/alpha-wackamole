@@ -1,6 +1,5 @@
 package org.academiadecodigo.thunderstructs;
 
-import org.academiadecodigo.simplegraphics.mouse.Mouse;
 import org.academiadecodigo.simplegraphics.mouse.MouseEvent;
 import org.academiadecodigo.simplegraphics.mouse.MouseHandler;
 import org.academiadecodigo.simplegraphics.pictures.Picture;
@@ -10,8 +9,6 @@ public class Hammer implements MouseHandler {
     private Picture hammer;
     private double clickX;
     private double clickY;
-    private double x;
-    private double y;
     private boolean firstClick;
 
     public Hammer(){
@@ -26,9 +23,8 @@ public class Hammer implements MouseHandler {
     public void mouseClicked(MouseEvent mouseEvent) {
 
         if(firstClick) {
-            System.out.println("not yet clicked");
             firstClick = false;
-            System.out.println(firstClick);
+            return;
         }
 
         System.out.println("I just clicked!");
@@ -39,14 +35,13 @@ public class Hammer implements MouseHandler {
 
     @Override
     public void mouseMoved(MouseEvent mouseEvent) {
+
         double xinicial = hammer.getX();
         double yinicial = hammer.getY();
         hammer.translate(mouseEvent.getX() - xinicial-20, mouseEvent.getY() - yinicial-50);
 
         double xInicial = hammer.getX();
         double yInicial = hammer.getY();
-        this.x = xInicial;
-        this.y = yInicial;
         if (mouseEvent.getX() < 1050.0 && mouseEvent.getY() < 510) {
             hammer.translate(mouseEvent.getX() - xInicial - 30, mouseEvent.getY() - yInicial - 60);
         }
@@ -60,6 +55,12 @@ public class Hammer implements MouseHandler {
          */
     }
 
+
+    public void refresh() {
+        hammer.delete();
+        hammer.draw();
+    }
+
     public boolean getFirstClick() {
         return this.firstClick;
     }
@@ -70,11 +71,6 @@ public class Hammer implements MouseHandler {
 
     public double getClickY() {
         return this.clickY;
-    }
-
-    public void refresh() {
-        hammer.delete();
-        hammer.draw();
     }
 
 }
