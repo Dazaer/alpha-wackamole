@@ -18,9 +18,11 @@ public class Game {
     private ClickToStart clickToStart;
     private GameOver gameOver;
     private Text scoreText;
+    private Text time;
 
     private boolean startOfGame;
     private int timeLimit;
+    private int secondsRemaining = 60;
     private int score;
     private Target[] targets = new Target[6];
     private Hammer hammer;
@@ -56,10 +58,7 @@ public class Game {
         mouse.addEventListener(MouseEventType.MOUSE_CLICKED);
         mouse.addEventListener(MouseEventType.MOUSE_MOVED);
 
-        this.scoreText = new Text(Field.MARGIN + 130,Field.MARGIN + 140, String.valueOf(score));
-        this.scoreText.grow(20,40);
-        this.scoreText.setColor(Color.YELLOW);
-        this.scoreText.draw();
+
 
         while (hammer.getFirstClick()) {
             Utility.Wait(500);
@@ -70,6 +69,16 @@ public class Game {
         Utility.Wait(3000);
         instructions.hide();
 
+
+        this.scoreText = new Text(Field.MARGIN + 130,Field.MARGIN + 140, String.valueOf(score));
+        this.scoreText.grow(20,40);
+        this.scoreText.setColor(Color.YELLOW);
+        this.scoreText.draw();
+        this.time = new Text(Field.MARGIN + 130, Field.MARGIN + 300, String.valueOf(secondsRemaining));
+        time.grow(20,40);
+        time.setColor(Color.ORANGE);
+        time.draw();
+
         for (int i = 0; i < targets.length; i++) {
             targets[i] = new Target();
         }
@@ -77,8 +86,9 @@ public class Game {
     }
 
     public void start() {
-        timer.scheduleAtFixedRate(task,1000,1000);
 
+
+        timer.scheduleAtFixedRate(task,1000,1000);
         Utility.Wait(2000);
         int stayTime = 1000;
 
@@ -148,18 +158,20 @@ public class Game {
         return startOfGame;
     }
 
-    private int secondsRemaining = 60;
+
     private Timer timer = new Timer();
     private TimerTask task = new TimerTask() {
         @Override
         public void run() {
             secondsRemaining -= 1;
+            time.setText(String.valueOf(secondsRemaining));
             System.out.println("Seconds remaining: " + secondsRemaining);
             if(secondsRemaining == 0){
                 task.cancel();
             }
         }
     };
+
 
 
 
