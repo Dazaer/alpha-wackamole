@@ -7,7 +7,7 @@ public class Instructions extends Field{
     private Picture instructions;
 
     public Instructions() {
-        this.instructions = new Picture(MARGIN, MARGIN, "layout_instructions.png");
+        this.instructions = new Picture(MARGIN, MARGIN, "layoutinstructions.png");
     }
 
     @Override

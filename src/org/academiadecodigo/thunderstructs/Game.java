@@ -33,8 +33,6 @@ public class Game {
 
 
         background = new Background();
-        background.show();
-
         this.background = new Background();
         this.begin = new Begin();
         this.instructions = new Instructions();
@@ -74,7 +72,11 @@ public class Game {
         this.scoreText.grow(20,40);
         this.scoreText.setColor(Color.YELLOW);
         this.scoreText.draw();
-        this.time = new Text(Field.MARGIN + 130, Field.MARGIN + 300, String.valueOf(secondsRemaining));
+
+
+        Time timerPicture = new Time();
+        timerPicture.show();
+        this.time = new Text(Field.MARGIN + 130, Field.MARGIN + 480, String.valueOf(secondsRemaining));
         time.grow(20,40);
         time.setColor(Color.ORANGE);
         time.draw();

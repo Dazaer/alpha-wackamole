@@ -7,7 +7,7 @@ public class Background extends Field {
     private Picture background;
 
     public Background() {
-        this.background = new Picture(MARGIN,MARGIN,"background_wackamole_Thanos.png");
+        this.background = new Picture(MARGIN,MARGIN,"LAYOUT_HOLES_1.png");
     }
 
     @Override
