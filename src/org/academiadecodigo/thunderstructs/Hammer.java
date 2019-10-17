@@ -35,13 +35,12 @@ public class Hammer implements MouseHandler {
 
         if (replayClick) {
             replayClick = false;
-            return;
+        } else {
+            Music thunderSfx = new Music("thunder.wav");
+            thunderSfx.startMusic();
+            clickX = mouseEvent.getX();
+            clickY = mouseEvent.getY();
         }
-
-        System.out.println("I just clicked!");
-        clickX = mouseEvent.getX();
-        clickY = mouseEvent.getY();
-
     }
 
     @Override
@@ -49,23 +48,7 @@ public class Hammer implements MouseHandler {
         double xInicial = hammer.getX();
         double yInicial = hammer.getY();
 
-        if(mouseEvent.getX() <= 50){
-            hammer.translate(0,mouseEvent.getY() - yInicial-60);
-        }
-        if(mouseEvent.getY() <= 75){
-            hammer.translate(mouseEvent.getX()-xInicial-30,0);
-        }
-        if (mouseEvent.getX() < 1050 && mouseEvent.getX() > 50 &&
-                mouseEvent.getY() < 510 && mouseEvent.getY() > 75) {
             hammer.translate(mouseEvent.getX() - xInicial - 30, mouseEvent.getY() - yInicial - 60);
-        }
-        if (mouseEvent.getX() >= 1050) {
-            hammer.translate(0, mouseEvent.getY() - yInicial-60);
-        }
-        if(mouseEvent.getY() >= 510){
-            hammer.translate(mouseEvent.getX() -xInicial-30, 0);
-        }
-
 
     }
 
