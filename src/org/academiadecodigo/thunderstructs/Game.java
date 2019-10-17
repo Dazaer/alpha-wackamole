@@ -142,7 +142,7 @@ public class Game {
         this.score = 0;
         this.scoreText = new Text(Field.MARGIN + 130,Field.MARGIN + 140, String.valueOf(score));
         this.scoreText.grow(20,40);
-        this.scoreText.setColor(Color.YELLOW);
+        this.scoreText.setColor(Color.ORANGE);
 
     }
 
