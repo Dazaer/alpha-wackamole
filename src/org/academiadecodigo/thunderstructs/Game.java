@@ -12,14 +12,19 @@ import java.util.TimerTask;
 public class Game {
 
 
-    /** Field graphics */
+    /**
+     * Field graphics
+     */
     private Background background;
     private Begin begin;
     private Instructions instructions;
     private ClickToStart clickToStart;
     private GameOver gameOver;
     private Score scoreImage;
+    private HighScore highScoreImage;
+    private Replay replay;
     private Text scoreText;
+    private Text highScoreText;
     private Text time;
 
     private Hammer hammer;
@@ -28,6 +33,7 @@ public class Game {
     private Timer timer;
     private int timeLimit;
     private int score;
+    private int highScore;
     private Target[] targets = new Target[6];
 
 
@@ -42,8 +48,12 @@ public class Game {
         this.begin = new Begin();
         this.instructions = new Instructions();
         this.clickToStart = new ClickToStart();
+        this.replay = new Replay();
         this.gameOver = new GameOver();
         this.scoreImage = new Score();
+        this.highScoreImage = new HighScore();
+
+        this.highScore = 0;
 
         initializeScore();
         initializeTimer();
@@ -78,7 +88,7 @@ public class Game {
         Time timerPicture = new Time();
         timerPicture.show();
         this.time = new Text(Field.MARGIN + 130, Field.MARGIN + 480, String.valueOf(timeLimit));
-        time.grow(20,40);
+        time.grow(20, 40);
         time.setColor(Color.ORANGE);
 
 
@@ -94,7 +104,7 @@ public class Game {
     public void start() {
         time.draw();
         scoreText.draw();
-        timer.scheduleAtFixedRate(timerTask,1000,1000);
+        timer.scheduleAtFixedRate(timerTask, 1000, 1000);
 
         /** Time to wait between each head */
         int stayTime = 500;
@@ -122,16 +132,35 @@ public class Game {
         }
 
         this.score = 0;
-        this.scoreText = new Text(Field.MARGIN + 130,Field.MARGIN + 140, String.valueOf(score));
-        this.scoreText.grow(20,40);
+        this.scoreText = new Text(Field.MARGIN + 130, Field.MARGIN + 140, String.valueOf(score));
+        this.scoreText.grow(20, 40);
         this.scoreText.setColor(Color.YELLOW);
 
+    }
+
+    public void updateHighScore() {
+
+        if (highScoreText != null) {
+            this.highScoreText.delete();
+        }
+
+        if (highScore < score) {
+            highScore = score;
+        }
+
+        this.highScoreText = new Text(Field.MARGIN + 750, Field.MARGIN + 350, String.valueOf(highScore));
+        this.highScoreText.grow(20, 40);
+        this.highScoreText.setColor(Color.YELLOW);
+
+        if (highScore > 10) {
+            highScoreText.grow(18, 0);
+        }
     }
 
 
     public void initializeTimer() {
 
-        this.timeLimit = 60;
+        this.timeLimit = 5;
         this.timer = new Timer();
         this.timerTask = new TimerTask() {
             @Override
@@ -139,7 +168,7 @@ public class Game {
                 timeLimit -= 1;
                 time.setText(String.valueOf(timeLimit));
                 System.out.println("Seconds remaining: " + timeLimit);
-                if(timeLimit == 0){
+                if (timeLimit == 0) {
                     timerTask.cancel();
                 }
             }
@@ -148,57 +177,67 @@ public class Game {
     }
 
     public Target chooseRandomTarget() {
-        int randomNumber = (int) (Math.random()*targets.length);
+        int randomNumber = (int) (Math.random() * targets.length);
         return targets[randomNumber];
     }
 
 
-    /** Takes a target (will be random) and makes it appear on the screen. If there is an input it will disappear */
+    /**
+     * Takes a target (will be random) and makes it appear on the screen. If there is an input it will disappear
+     */
     public void targetShow(Target target) {
         int counter = 0;
         target.appear();
         hammer.refresh();
         while (target.getStayTime() > counter) {
 
-            if ((hammer.getClickX() > target.getWidth() && hammer.getClickX() < target.getWidth()+ Target.X) &&
-                    (hammer.getClickY() > target.getHeight() && hammer.getClickY() < target.getHeight()+ Target.Y)) {
+            if ((hammer.getClickX() > target.getWidth() && hammer.getClickX() < target.getWidth() + Target.X) &&
+                    (hammer.getClickY() > target.getHeight() && hammer.getClickY() < target.getHeight() + Target.Y)) {
                 target.disappear();
                 updateScore();
                 break;
             }
 
             Utility.Wait(1);
-            counter++ ;
+            counter++;
 
         }
         target.disappear();
     }
 
 
-    public void updateScore(){
-        if(score == 9){
-            scoreText.grow(18 ,0);
+    public void updateScore() {
+        if (score == 9) {
+            scoreText.grow(18, 0);
         }
-        score ++;
+        score++;
         scoreText.setText(String.valueOf(score));
     }
 
 
     public void endGame() {
 
-        for (Target target: targets) {
+        for (Target target : targets) {
             target.disappear();
         }
-
+        updateHighScore();
         gameOver.show();
-        Utility.Wait(1000);
+        highScoreImage.show();
+        highScoreText.draw();
         hammer.setReplayClick(true);
+        while (hammer.isReplayClick()) {
+            replay.blink();
+            Utility.Wait(200);
+        }
+
+        Utility.Wait(1000);
+
 
         /** Until player clicks game over screen shows */
         while (hammer.isReplayClick()) {
             Utility.Wait(50);
-            System.out.println("Waiting for replay click");
         }
+
 
         getReplay();
     }
@@ -206,9 +245,11 @@ public class Game {
     public void getReplay() {
 
 
-            initializeScore();
-            initializeTimer();
-            gameOver.hide();
+        initializeScore();
+        initializeTimer();
+        gameOver.hide();
+        highScoreImage.hide();
+        highScoreText.delete();
     }
 
 
