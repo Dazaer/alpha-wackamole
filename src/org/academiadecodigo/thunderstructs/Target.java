@@ -7,8 +7,6 @@ public class Target  {
     public static final int Y = 250;
     private static int targetsCreated;
 
-
-    //private Picture[] targets = new Picture[6];       UNNECESSARY??
     private Picture target;
     private int width;
     private int height;

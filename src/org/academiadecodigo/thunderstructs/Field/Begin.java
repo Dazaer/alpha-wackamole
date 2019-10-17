@@ -7,7 +7,7 @@ public class Begin extends Field {
     private Picture beginning;
 
     public Begin() {
-        this.beginning = new Picture(MARGIN, MARGIN, "layout_beginning.png");
+        this.beginning = new Picture(MARGIN, MARGIN, "resources/layout_beginning.png");
     }
 
         @Override

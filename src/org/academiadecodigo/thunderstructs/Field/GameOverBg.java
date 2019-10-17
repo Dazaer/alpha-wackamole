@@ -8,7 +8,7 @@ public class GameOverBg extends Field {
     private Picture gameOverBg;
 
     public GameOverBg() {
-        this.gameOverBg = new Picture(MARGIN, MARGIN, "background_simple.png");
+        this.gameOverBg = new Picture(MARGIN, MARGIN, "resources/background_simple.png");
     }
 
     @Override

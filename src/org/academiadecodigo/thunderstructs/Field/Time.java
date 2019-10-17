@@ -4,7 +4,7 @@ import org.academiadecodigo.simplegraphics.pictures.Picture;
 
 public class Time extends Field{
 
-    private Picture timer = new Picture(Field.MARGIN + 45,Field.MARGIN + 380,"time.png");
+    private Picture timer = new Picture(Field.MARGIN + 45,Field.MARGIN + 380,"resources/time.png");
 
     @Override
     public void show() {

@@ -79,7 +79,6 @@ public class Game {
 
         /** Hide beginning image, do 3 second countdown */
         clickToStart.hide();
-        begin.hide();
         instructions.show();
         beginSfx = new Music("slow-begin.wav");
         beginSfx.startMusic();

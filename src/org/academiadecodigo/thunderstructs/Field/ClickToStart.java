@@ -1,8 +1,6 @@
 package org.academiadecodigo.thunderstructs.Field;
 
 import org.academiadecodigo.simplegraphics.pictures.Picture;
-import org.academiadecodigo.thunderstructs.Music;
-import org.academiadecodigo.thunderstructs.Utility;
 
 public class ClickToStart extends Field {
 
@@ -11,7 +9,7 @@ public class ClickToStart extends Field {
 
 
     public ClickToStart() {
-        this.clickToStart = new Picture(MARGIN + 586 , MARGIN + 440 , "click_to_start.png");
+        this.clickToStart = new Picture(MARGIN + 586 , MARGIN + 440 , "resources/click_to_start.png");
     }
 
     @Override

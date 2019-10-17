@@ -7,7 +7,7 @@ public class GameOver extends Field {
     private Picture gameOver;
 
     public GameOver() {
-        this.gameOver = new Picture(MARGIN + 364, MARGIN + 269, "game_over.png");
+        this.gameOver = new Picture(MARGIN + 364, MARGIN + 269, "resources/game_over.png");
     }
 
     @Override

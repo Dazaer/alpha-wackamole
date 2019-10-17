@@ -6,7 +6,6 @@ import org.academiadecodigo.simplegraphics.pictures.Picture;
 
 public class Hammer implements MouseHandler {
 
-    private Music thunderSfx;
     private Picture hammer;
     private double clickX;
     private double clickY;
@@ -36,15 +35,12 @@ public class Hammer implements MouseHandler {
 
         if (replayClick) {
             replayClick = false;
-           // return;
         } else {
-            thunderSfx = new Music("thunder.wav");
+            Music thunderSfx = new Music("thunder.wav");
             thunderSfx.startMusic();
             clickX = mouseEvent.getX();
             clickY = mouseEvent.getY();
         }
-
-
     }
 
     @Override
