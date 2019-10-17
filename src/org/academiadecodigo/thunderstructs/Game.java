@@ -41,7 +41,6 @@ public class Game {
 
 
         background = new Background();
-        background.show();
 
         this.background = new Background();
         this.begin = new Begin();
@@ -58,7 +57,6 @@ public class Game {
 
     public void init() {
 
-        background.show();
         begin.show();
 
         this.hammer = new Hammer();
@@ -86,6 +84,7 @@ public class Game {
         beginSfx = new Music("slow-begin.wav");
         beginSfx.startMusic();
         Utility.Wait(3000);
+        background.show();
         instructions.hide();
         scoreImage.show();
 
@@ -156,7 +155,6 @@ public class Game {
             public void run() {
                 timeLimit -= 1;
                 time.setText(String.valueOf(timeLimit));
-                System.out.println("Seconds remaining: " + timeLimit);
                 if(timeLimit == 0){
                     timerTask.cancel();
                 }
