@@ -7,8 +7,6 @@ public class Target  {
     public static final int Y = 250;
     private static int targetsCreated;
 
-
-    //private Picture[] targets = new Picture[6];       UNNECESSARY??
     private Picture target;
     private int width;
     private int height;
@@ -21,7 +19,7 @@ public class Target  {
 
         /**implement a prettier way to do this... */
 
-        stayTime = 1000;
+        stayTime = 900;
         isHit = false;
 
         switch (targetsCreated) {

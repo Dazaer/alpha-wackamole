@@ -7,7 +7,7 @@ public class Score extends Field {
     private Picture score;
 
     public Score() {
-        this.score = new Picture(MARGIN + 18, MARGIN + 62, "score.png");
+        this.score = new Picture(MARGIN + 18, MARGIN + 62, "resources/score.png");
     }
 
     @Override
