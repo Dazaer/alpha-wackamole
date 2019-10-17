@@ -22,6 +22,11 @@ public class Game {
     private Text scoreText;
     private Text time;
 
+    private Music gameTheme;
+    private Music deathSfx;
+    private Music beginSfx;
+    private Music gameOverSfx;
+
     private Hammer hammer;
     private Mouse mouse;
     private TimerTask timerTask;
@@ -70,6 +75,8 @@ public class Game {
         clickToStart.hide();
         begin.hide();
         instructions.show();
+        beginSfx = new Music("slow-begin.wav");
+        beginSfx.startMusic();
         Utility.Wait(3000);
         instructions.hide();
         scoreImage.show();
@@ -87,7 +94,6 @@ public class Game {
         }
 
         start();
-
     }
 
 
@@ -99,6 +105,8 @@ public class Game {
         time.draw();
         scoreText.draw();
         timer.scheduleAtFixedRate(timerTask,1000,1000);
+        gameTheme = new Music("LoM-nova.wav");
+        gameTheme.startMusic();
 
 
         /** Loop to play the game that ends when timer is 0*/
@@ -181,6 +189,9 @@ public class Game {
                 }
                 target.setHit(true);
 
+                int randomNumber = (int) (Math.random()*2);
+                this.deathSfx = randomNumber % 2 == 0 ? new Music("die-2.wav") : new Music("die-1.wav");
+                deathSfx.startMusic();
                 target.disappear();
                 updateScore();
                 break;
@@ -209,7 +220,11 @@ public class Game {
             target.disappear();
         }
 
+        gameTheme.stopMusic();
+        gameOverSfx = new Music("game-over.wav");
+        gameOverSfx.startMusic();
         gameOver.show();
+
         Utility.Wait(1000);
         hammer.setReplayClick(true);
 
@@ -223,7 +238,6 @@ public class Game {
     }
 
     public void getReplay() {
-
 
             initializeScore();
             initializeTimer();
