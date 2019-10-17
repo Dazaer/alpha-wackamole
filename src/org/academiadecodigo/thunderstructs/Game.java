@@ -23,6 +23,7 @@ public class Game {
     private Text time;
 
     private Music gameTheme;
+    private Music blinkSfx;
     private Music deathSfx;
     private Music beginSfx;
     private Music gameOverSfx;
@@ -65,10 +66,17 @@ public class Game {
         mouse.addEventListener(MouseEventType.MOUSE_CLICKED);
         mouse.addEventListener(MouseEventType.MOUSE_MOVED);
 
+        int musicCounter = 0;
         /** Wait for first click to begin the game and blink Click to Start button*/
         while (hammer.isFirstClick()) {
             clickToStart.blink();
             Utility.Wait(200);
+
+            if (musicCounter % 5 == 0) {
+                blinkSfx = new Music("start.wav");
+                blinkSfx.startMusic();
+            }
+            musicCounter++;
         }
 
         /** Hide beginning image, do 3 second countdown */

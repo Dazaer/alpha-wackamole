@@ -8,8 +8,7 @@ public class ClickToStart extends Field {
 
     private Picture clickToStart;
     private long createdTime = System.currentTimeMillis();
-    private Music blinkSfx;
-    private boolean blink;
+
 
     public ClickToStart() {
         this.clickToStart = new Picture(MARGIN + 586 , MARGIN + 440 , "click_to_start.png");
@@ -34,8 +33,7 @@ public class ClickToStart extends Field {
         seconds = (int)((currentTime - createdTime) / 500);
 
         if(seconds % 2 == 0) {
-            blinkSfx = new Music("blink.wav");
-            blinkSfx.startMusic();
+
             show();
         }
         else {
@@ -43,7 +41,4 @@ public class ClickToStart extends Field {
         }
     }
 
-    public boolean isBlink() {
-        return blink;
-    }
 }
