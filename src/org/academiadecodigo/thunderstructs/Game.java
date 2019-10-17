@@ -37,7 +37,6 @@ public class Game {
         background = new Background();
         background.show();
 
-
         this.background = new Background();
         this.begin = new Begin();
         this.instructions = new Instructions();
@@ -61,12 +60,13 @@ public class Game {
         mouse.addEventListener(MouseEventType.MOUSE_CLICKED);
         mouse.addEventListener(MouseEventType.MOUSE_MOVED);
 
-        /** Wait for first click to begin the game */
+        /** Wait for first click to begin the game and blink Click to Start button*/
         while (hammer.isFirstClick()) {
             clickToStart.blink();
             Utility.Wait(200);
         }
 
+        /** Hide beginning image, do 3 second countdown */
         clickToStart.hide();
         begin.hide();
         instructions.show();
@@ -92,30 +92,32 @@ public class Game {
 
 
     public void start() {
+
+        int timeBetweenSpawns = 300;
+        Target lastTarget = null;
+
         time.draw();
         scoreText.draw();
         timer.scheduleAtFixedRate(timerTask,1000,1000);
 
-        /** Time to wait between each head */
-        int stayTime = 500;
 
-        while (true) {
-            Utility.Wait(stayTime);
+        /** Loop to play the game that ends when timer is 0*/
+        while (timeLimit != 0) {
+
+            Utility.Wait(timeBetweenSpawns);
             Target target = chooseRandomTarget();
-            targetShow(target);
-
-            if (timeLimit == 0) {
-                endGame();
-                break;
+            while (lastTarget == target){
+                target = chooseRandomTarget();
             }
-        }
+            targetShow(target);
+            lastTarget = target;
 
+        }
+        endGame();
     }
 
 
     public void initializeScore() {
-
-        System.out.println("initializing score");
 
         if (scoreText != null) {
             this.scoreText.delete();
@@ -131,7 +133,7 @@ public class Game {
 
     public void initializeTimer() {
 
-        this.timeLimit = 60;
+        this.timeLimit = 30;
         this.timer = new Timer();
         this.timerTask = new TimerTask() {
             @Override
@@ -158,10 +160,27 @@ public class Game {
         int counter = 0;
         target.appear();
         hammer.refresh();
+
+
+        /** A loop for the target to stay on screen until counter reaches its stay time limit. Every loop it verifies if
+         * the target was clicked on (every 1 ms)
+         */
         while (target.getStayTime() > counter) {
 
             if ((hammer.getClickX() > target.getWidth() && hammer.getClickX() < target.getWidth()+ Target.X) &&
-                    (hammer.getClickY() > target.getHeight() && hammer.getClickY() < target.getHeight()+ Target.Y)) {
+                (hammer.getClickY() > target.getHeight() && hammer.getClickY() < target.getHeight()+ Target.Y) &&
+                (!target.isHit())) {
+
+                /** set all the other targets that were not clicked on to not hit (!target.isHit()) so that the above
+                 * if condition can verify to true if a target is clicked on. Then set this target to already hit so that
+                 * if another target spawns in that place, the click that was registered before doesn't count it and
+                 * the score remains the same (random score increase bug fix).
+                 */
+                for (Target hitTarget : targets) {
+                    hitTarget.setHit(false);
+                }
+                target.setHit(true);
+
                 target.disappear();
                 updateScore();
                 break;
