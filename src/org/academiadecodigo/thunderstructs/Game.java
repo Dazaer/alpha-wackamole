@@ -221,17 +221,17 @@ public class Game {
         }
 
         gameTheme.stopMusic();
+        Utility.Wait(300);
+        gameOver.show();
         gameOverSfx = new Music("game-over.wav");
         gameOverSfx.startMusic();
-        gameOver.show();
 
         Utility.Wait(1000);
         hammer.setReplayClick(true);
 
-        /** Until player clicks game over screen shows */
+        /** Awaits for player to click to restart the game */
         while (hammer.isReplayClick()) {
             Utility.Wait(50);
-            System.out.println("Waiting for replay click");
         }
 
         getReplay();

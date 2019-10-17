@@ -40,7 +40,6 @@ public class Hammer implements MouseHandler {
         } else {
             thunderSfx = new Music("thunder.wav");
             thunderSfx.startMusic();
-            System.out.println("I just clicked!");
             clickX = mouseEvent.getX();
             clickY = mouseEvent.getY();
         }
