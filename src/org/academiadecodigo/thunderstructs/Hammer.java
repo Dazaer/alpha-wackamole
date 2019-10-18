@@ -13,7 +13,7 @@ public class Hammer implements MouseHandler {
     private boolean replayClick;
 
     public Hammer(){
-        hammer = new Picture(5,5,"hammer.png");
+        hammer = new Picture(5,5,"resources/hammer.png");
         hammer.draw();
         this.firstClick = true;
         this.replayClick = false;

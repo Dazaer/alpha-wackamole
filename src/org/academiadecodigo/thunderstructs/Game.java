@@ -19,7 +19,10 @@ public class Game {
     private ClickToStart clickToStart;
     private GameOver gameOver;
     private Score scoreImage;
+    private HighScore highScoreImage;
+    private Replay replay;
     private Text scoreText;
+    private Text highScoreText;
     private Text time;
 
     private Music gameTheme;
@@ -34,6 +37,7 @@ public class Game {
     private Timer timer;
     private int timeLimit;
     private int score;
+    private int highScore;
     private Target[] targets = new Target[6];
 
 
@@ -46,8 +50,12 @@ public class Game {
         this.begin = new Begin();
         this.instructions = new Instructions();
         this.clickToStart = new ClickToStart();
+        this.replay = new Replay();
         this.gameOver = new GameOver();
         this.scoreImage = new Score();
+        this.highScoreImage = new HighScore();
+
+        this.highScore = 0;
 
         initializeScore();
         initializeTimer();
@@ -91,7 +99,7 @@ public class Game {
         Time timerPicture = new Time();
         timerPicture.show();
         this.time = new Text(Field.MARGIN + 130, Field.MARGIN + 480, String.valueOf(timeLimit));
-        time.grow(20,40);
+        time.grow(20, 40);
         time.setColor(Color.ORANGE);
 
 
@@ -145,6 +153,26 @@ public class Game {
     }
 
 
+    public void updateHighScore() {
+
+        if (highScoreText != null) {
+            this.highScoreText.delete();
+        }
+
+        if (highScore < score) {
+            highScore = score;
+        }
+
+        this.highScoreText = new Text(Field.MARGIN + 750, Field.MARGIN + 350, String.valueOf(highScore));
+        this.highScoreText.grow(20, 40);
+        this.highScoreText.setColor(Color.YELLOW);
+
+        if (highScore == 9) {
+            scoreText.grow(18, 0);
+        }
+
+    }
+
     public void initializeTimer() {
 
         this.timeLimit = 30;
@@ -163,7 +191,7 @@ public class Game {
     }
 
     public Target chooseRandomTarget() {
-        int randomNumber = (int) (Math.random()*targets.length);
+        int randomNumber = (int) (Math.random() * targets.length);
         return targets[randomNumber];
     }
 
@@ -203,36 +231,46 @@ public class Game {
             }
 
             Utility.Wait(1);
-            counter++ ;
+            counter++;
 
         }
         target.disappear();
     }
 
 
-    public void updateScore(){
-        if(score == 9){
-            scoreText.grow(18 ,0);
+    public void updateScore() {
+        if (score == 9) {
+            scoreText.grow(18, 0);
         }
-        score ++;
+        score++;
         scoreText.setText(String.valueOf(score));
     }
 
 
     public void endGame() {
 
-        for (Target target: targets) {
+        for (Target target : targets) {
             target.disappear();
         }
 
         gameTheme.stopMusic();
         Utility.Wait(300);
+        updateHighScore();
         gameOver.show();
         gameOverSfx = new Music("game-over.wav");
         gameOverSfx.startMusic();
 
         Utility.Wait(1000);
+        highScoreImage.show();
+        highScoreText.draw();
         hammer.setReplayClick(true);
+        while (hammer.isReplayClick()) {
+            replay.blink();
+            Utility.Wait(200);
+        }
+
+        Utility.Wait(1000);
+
 
         /** Awaits for player to click to restart the game */
         while (hammer.isReplayClick()) {
@@ -244,9 +282,13 @@ public class Game {
 
     public void getReplay() {
 
-            initializeScore();
-            initializeTimer();
-            gameOver.hide();
+
+        initializeScore();
+        initializeTimer();
+        gameOver.hide();
+        highScoreImage.hide();
+        highScoreText.delete();
+        replay.hide();
     }
 
 

@@ -16,7 +16,7 @@ public class Music {
     private Clip clip;
 
     public Music (String pathStr) {
-        this.pathStr = " resources/music/" + pathStr;
+        this.pathStr = "/resources/music/" + pathStr;
     }
 
     public void startMusic() {
